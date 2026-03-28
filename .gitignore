@@ -20,7 +20,8 @@ data/calib/
 .cache/
 
 # Outputs (regenerated)
-outputs/examples/*.png
+# outputs/examples/*.png
+!outputs/examples/showcase_*.png
 
 # Jupyter
 .ipynb_checkpoints/
