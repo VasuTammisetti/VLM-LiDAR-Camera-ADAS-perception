@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.env
+*.egg-info/
+
+# Data (full dataset, not samples)
+data/image_2/
+data/velodyne/
+data/calib/
+!data/sample_scenes/
+
+# Model weights
+*.pth
+*.bin
+*.pt
+*.safetensors
+.cache/
+
+# Outputs (regenerated)
+outputs/examples/*.png
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Docker
+docker/tmp/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test results
+test-results/

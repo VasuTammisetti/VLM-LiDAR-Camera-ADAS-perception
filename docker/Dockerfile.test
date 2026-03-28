@@ -1,0 +1,12 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+COPY requirements.txt requirements-dev.txt ./
+RUN pip install --no-cache-dir -r requirements.txt -r requirements-dev.txt
+
+COPY src/ ./src/
+COPY tests/ ./tests/
+COPY data/sample_scenes/ ./data/sample_scenes/
+
+CMD ["pytest", "tests/", "-v", "--tb=short"]

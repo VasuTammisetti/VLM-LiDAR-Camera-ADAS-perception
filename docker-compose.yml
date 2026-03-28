@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  inference:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - ENVIRONMENT=docker
+    volumes:
+      - ./data:/app/data
+      - ./outputs:/app/outputs
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  test:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.test
+    environment:
+      - ENVIRONMENT=docker
+      - CUDA_VISIBLE_DEVICES=""
+
+  lint:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.test
+    command: >
+      sh -c "
+        flake8 src/ --max-line-length=120 &&
+        echo 'Linting passed'
+      "

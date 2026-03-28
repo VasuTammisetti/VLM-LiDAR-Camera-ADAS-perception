@@ -1,0 +1,6 @@
+pytest>=7.0
+flake8>=6.0
+black>=23.0
+Pillow>=9.0
+numpy>=1.23
+matplotlib>=3.5
