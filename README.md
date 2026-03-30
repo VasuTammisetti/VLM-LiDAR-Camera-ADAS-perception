@@ -31,7 +31,7 @@ The model analyzes raw camera images, identifying road users, assessing hazards,
 
 ### Camera + LiDAR Fusion Analysis
 
-LiDAR point clouds projected onto camera images as depth-colored overlays. The VLM uses this fused view to estimate distances and prioritize hazards.
+LiDAR point clouds projected onto camera images as depth-colored overlays. The VLM uses this fused view to estimate distances and prioritize hazards.  
 
 <div align="center">
 <img src="outputs/examples/vlm_adas_lidar_demo.gif" alt="VLM LiDAR Demo" width="900"/>
