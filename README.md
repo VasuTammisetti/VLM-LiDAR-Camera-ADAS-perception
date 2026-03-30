@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚗 VLM-LiDAR-Camera-ADAS-Perception
+# 🚗 VLM-LiDAR-Camera-ADAS-Perception  
 
 ### Zero-Shot Autonomous Driving Scene Understanding with Vision Language Models
 
@@ -21,7 +21,7 @@
 
 ### RGB Scene Analysis
 
-The model analyzes raw camera images from KITTI, identifying road users, assessing hazards, and recommending driving actions — all in a single forward pass.
+The model analyzes raw camera images, identifying road users, assessing hazards, and recommending driving actions — all in a single forward pass.
 
 <div align="center">
 <img src="outputs/examples/vlm_adas_demo.gif" alt="VLM ADAS Demo" width="900"/>
