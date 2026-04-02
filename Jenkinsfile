@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE_TEST = 'vlm-adas-test'
         DOCKER_IMAGE_APP  = 'vlm-adas-app'
-        REGISTRY          = 'your-dockerhub-username'
+        REGISTRY          = 'vasutammisetti'
     }
 
     stages {
