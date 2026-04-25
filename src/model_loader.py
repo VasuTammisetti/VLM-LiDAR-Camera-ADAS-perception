@@ -3,6 +3,7 @@ Model loading with 4-bit quantization for low-VRAM GPUs.
 """
 import torch
 
+
 def get_device_info():
     """Print GPU info and return available VRAM."""
     if torch.cuda.is_available():
@@ -13,6 +14,7 @@ def get_device_info():
     else:
         print("No GPU detected. Running on CPU (very slow).")
         return 0
+
 
 def load_model(model_name="llava-1.5-7b"):
     """
@@ -26,12 +28,13 @@ def load_model(model_name="llava-1.5-7b"):
     """
     from transformers import BitsAndBytesConfig
 
-    vram = get_device_info()
+    # Print GPU info as a diagnostic side effect
+    get_device_info()
 
     bnb_config = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_compute_dtype=torch.float16,
-        bnb_4bit_quant_type="nf4"
+        bnb_4bit_quant_type="nf4",
     )
 
     if model_name == "llava-1.5-7b":
@@ -45,7 +48,7 @@ def load_model(model_name="llava-1.5-7b"):
             model_id,
             quantization_config=bnb_config,
             device_map="auto",
-            torch_dtype=torch.float16
+            torch_dtype=torch.float16,
         )
 
     elif model_name == "paligemma-3b":
@@ -56,12 +59,12 @@ def load_model(model_name="llava-1.5-7b"):
 
         processor = AutoProcessor.from_pretrained(model_id)
         model = PaliGemmaForConditionalGeneration.from_pretrained(
-            model_id,
-            quantization_config=bnb_config,
-            device_map="auto"
+            model_id, quantization_config=bnb_config, device_map="auto"
         )
     else:
-        raise ValueError(f"Unknown model: {model_name}. Use 'llava-1.5-7b' or 'paligemma-3b'")
+        raise ValueError(
+            f"Unknown model: {model_name}. Use 'llava-1.5-7b' or 'paligemma-3b'"
+        )
 
     used = torch.cuda.memory_allocated() / 1024**3
     print(f"Model loaded! VRAM used: {used:.1f} GB")
