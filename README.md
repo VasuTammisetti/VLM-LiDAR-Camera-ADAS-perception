@@ -336,7 +336,7 @@ The full `Jenkinsfile` is in the repo root — fully declarative, Docker-in-Dock
 
 ### Engineering Choices Worth Calling Out
 
-A few decisions that may matter to reviewers:
+A few decisions that may matter:
 
 1. **Docker-in-Docker via socket mount** — Jenkins runs in Docker but builds/runs Docker containers itself by mounting `/var/run/docker.sock`. This avoids the overhead of nested Docker but has well-known security trade-offs (acceptable for local CI; in production this would be replaced with Kubernetes pod-per-build or rootless DinD).
 
