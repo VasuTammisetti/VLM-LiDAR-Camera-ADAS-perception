@@ -135,7 +135,7 @@ Traditional ADAS perception pipelines require thousands of annotated images, wee
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VasuTammisetti/VLM-LiDAR-Camera-ADAS-perception/blob/main/notebooks/vlm_adas_demo.ipynb)
 
-### Option 2: Local (RTX 2070+ / 8GB VRAM)
+### Option 2: Local (RTX 2070+ / 8GB VRAM)(My Own Machine)
 ```bash
 git clone https://github.com/VasuTammisetti/VLM-LiDAR-Camera-ADAS-perception.git
 cd VLM-LiDAR-Camera-ADAS-perception
