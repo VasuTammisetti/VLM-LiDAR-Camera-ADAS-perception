@@ -1,6 +1,6 @@
 <div align="center">
  
-# 🚗 VLM-LiDAR-Camera-ADAS-Perception  
+#  VLM-LiDAR-Camera-ADAS-Perception  
  
 ### Zero-Shot Autonomous Driving Scene Understanding with Vision Language Models
 
@@ -19,7 +19,7 @@
 
 </div>
 
-## 🎬 Demo
+##  Demo
 
 ### RGB Scene Analysis
 
@@ -41,7 +41,7 @@ LiDAR point clouds projected onto camera images as depth-colored overlays. The V
 
 ---
 
-## 🔍 Detailed Results
+##  Detailed Results
 
 ### Scene Analysis — RGB Input
 
@@ -75,7 +75,7 @@ Three-panel view: Front Camera (RGB) | RGB + LiDAR Depth Overlay | VLM Analysis.
 
 ---
 
-## 💡 Why This Project?
+##  Why This Project?
 
 Traditional ADAS perception pipelines require thousands of annotated images, weeks of training, and task-specific architectures. This project takes a fundamentally different approach:
 
@@ -89,7 +89,7 @@ Traditional ADAS perception pipelines require thousands of annotated images, wee
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 ```
 ┌────────────────────────────────────────────────────────────────────┐
 │                       Input Pipeline                               │
@@ -113,7 +113,7 @@ Traditional ADAS perception pipelines require thousands of annotated images, wee
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
 - **Zero-Shot Scene Analysis** — No training or annotations needed. The pre-trained VLM understands driving scenes using carefully engineered ADAS-specific prompts.
 
@@ -129,7 +129,7 @@ Traditional ADAS perception pipelines require thousands of annotated images, wee
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Option 1: Google Colab (Recommended — Free GPU)
 
@@ -161,7 +161,7 @@ docker compose run lint           # Code linting
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 ```
 VLM-LiDAR-Camera-ADAS-perception/
 ├── src/
@@ -181,7 +181,7 @@ VLM-LiDAR-Camera-ADAS-perception/
 
 ---
 
-## 🔧 Prompt Engineering
+##  Prompt Engineering
 
 The core innovation — transforming a general-purpose VLM into an ADAS perception system through prompt design:
 
@@ -194,7 +194,7 @@ The core innovation — transforming a general-purpose VLM into an ADAS percepti
 
 ---
 
-## 🧠 Models
+##  Models
 
 | Model | VRAM | Speed | Quality | GPU Requirement |
 |:---|:---:|:---:|:---:|:---|
@@ -203,7 +203,7 @@ The core innovation — transforming a general-purpose VLM into an ADAS percepti
 
 ---
 
-## 🔄 CI/CD Pipeline
+## CI/CD Pipeline
 
 > **Production-grade automation for safety-critical perception code.** Every commit to `main` triggers a fully containerized pipeline that lints, tests, builds, and publishes a Docker image — with sub-3-second webhook latency and zero manual intervention.
 
@@ -249,7 +249,7 @@ ADAS perception code is safety-critical. A regression in calibration math, a bro
 
 <div align="center">
 
-#### Build #10 — All Stages Green ✅
+#### Build #10 — All Stages Green 
 
 <img src="stages-time.jpg" alt="Jenkins Pipeline All Stages Passing" width="950"/>
 
@@ -350,7 +350,7 @@ A few decisions that may matter:
 
 ---
 
-## 📊 Technical Details
+## Technical Details
 
 | Component | Detail |
 |:---|:---|
@@ -363,13 +363,13 @@ A few decisions that may matter:
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 `Python` `PyTorch` `HuggingFace Transformers` `LLaVA` `bitsandbytes` `KITTI` `Docker` `Jenkins` `NumPy` `Matplotlib`
 
 ---
 
-## 🗺️ Roadmap
+##  Roadmap
 
 Active development. The CI/CD foundation enables rapid, safe iteration on these:
 
@@ -382,7 +382,7 @@ Active development. The CI/CD foundation enables rapid, safe iteration on these:
 
 ---
 
-## 👤 Author
+##  Author
 
 **Vasu Tammisetti**
 AI Research Engineer & Doctoral Researcher — Infineon Technologies AG, Munich
@@ -392,7 +392,7 @@ PhD: Meta-Learning for ADAS Perception — University of Granada
 
 ---
 
-## 📝 License
+##  License
 
 This project is licensed under the [MIT License](LICENSE).
 
