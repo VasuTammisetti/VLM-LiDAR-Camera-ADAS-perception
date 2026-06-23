@@ -1,7 +1,7 @@
 <div align="center">
- 
-#  VLM-LiDAR-Camera-ADAS-Perception  
- 
+
+#  VLM-LiDAR-Camera-ADAS-Perception
+
 ### Zero-Shot Autonomous Driving Scene Understanding with Vision Language Models
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VasuTammisetti/VLM-LiDAR-Camera-ADAS-perception/blob/main/notebooks/vlm_adas_demo.ipynb)
@@ -33,7 +33,7 @@ The model analyzes raw camera images, identifying road users, assessing hazards,
 
 ### Camera + LiDAR Fusion Analysis
 
-LiDAR point clouds projected onto camera images as depth-colored overlays. The VLM uses this fused view to estimate distances and prioritize hazards.  
+LiDAR point clouds projected onto camera images as depth-colored overlays. The VLM uses this fused view to estimate distances and prioritize hazards.
 
 <div align="center">
 <img src="outputs/examples/vlm_adas_lidar_demo.gif" alt="VLM LiDAR Demo" width="900"/>
@@ -125,27 +125,38 @@ Traditional ADAS perception pipelines require thousands of annotated images, wee
 
 - **4-bit Quantization** — Runs on consumer GPUs (RTX 2070, 8GB VRAM) using NF4 quantization via bitsandbytes.
 
-- **Production-Grade CI/CD** — Webhook-triggered Jenkins pipeline with automated testing and Docker Hub publishing — see [CI/CD section](#-cicd-pipeline) below.
+- **Production-Grade CI/CD** — Webhook-triggered Jenkins pipeline with automated testing and Docker Hub publishing — see [CI/CD section](#cicd-pipeline) below.
 
 ---
 
 ##  Quick Start
 
+The demo ships with 5 bundled sample scenes in `data/sample_scenes`, so every option below runs out of the box on a fresh clone — no dataset download required. The default model (**LLaVA-1.6-Mistral-7B**) is open access and needs no login.
+
 ### Option 1: Google Colab (Recommended — Free GPU)
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VasuTammisetti/VLM-LiDAR-Camera-ADAS-perception/blob/main/notebooks/vlm_adas_demo.ipynb)
 
-### Option 2: Local (RTX 2070+ / 8GB VRAM)(My Own Machine)
+### Option 2: Local (RTX 2070+ / 8GB VRAM)
 ```bash
 git clone https://github.com/VasuTammisetti/VLM-LiDAR-Camera-ADAS-perception.git
 cd VLM-LiDAR-Camera-ADAS-perception
 
 python -m venv venv
 source venv/bin/activate          # Linux/Mac
-venv\\Scripts\\activate           # Windows
+venv\Scripts\activate             # Windows
 
 pip install -r requirements.txt
-python run_demo.py --env local --model llava-1.5-7b --num_scenes 5
+
+# Runs LLaVA on the 5 bundled sample scenes (no login, no dataset needed)
+python run_demo.py --num_scenes 5
+```
+
+To run on the full KITTI dataset, place your data here before running:
+```
+data/image_2/    # left camera .png files
+data/velodyne/   # Velodyne .bin point clouds
+data/calib/      # calibration .txt files
 ```
 
 ### Option 3: Docker (Pre-built image on Docker Hub)
@@ -164,15 +175,17 @@ docker compose run lint           # Code linting
 ## Project Structure
 ```
 VLM-LiDAR-Camera-ADAS-perception/
+├── notebooks/
+│   └── vlm_adas_demo.ipynb    # Colab walkthrough
 ├── src/
-│   ├── config.py              # Environment-aware data paths
+│   ├── config.py              # Environment-aware data paths (with sample fallback)
 │   ├── model_loader.py        # VLM loading with 4-bit quantization
 │   ├── scene_analyzer.py      # ADAS prompt templates + inference
 │   └── visualization.py       # LiDAR projection, BEV, result display
 ├── tests/                     # 11 unit tests (GPU-free)
 ├── docker/                    # GPU + CI Dockerfiles
 ├── outputs/examples/          # Demo GIFs and showcase images
-├── data/sample_scenes/        # Sample KITTI frames
+├── data/sample_scenes/        # Bundled sample KITTI frames
 ├── Jenkinsfile                # CI/CD pipeline
 ├── docker-compose.yml         # Multi-service orchestration
 ├── run_demo.py                # CLI entry point
@@ -196,10 +209,25 @@ The core innovation — transforming a general-purpose VLM into an ADAS percepti
 
 ##  Models
 
-| Model | VRAM | Speed | Quality | GPU Requirement |
+| Model | VRAM | Speed | Quality | Notes |
 |:---|:---:|:---:|:---:|:---|
-| **LLaVA-1.6-Mistral-7B** (4-bit) | ~5-6 GB | Moderate | High | RTX 2070+ / T4 |
-| PaliGemma-3B (4-bit) | ~3-4 GB | Fast | Good | Any CUDA GPU |
+| **LLaVA-1.6-Mistral-7B** (4-bit) | ~5-6 GB | Moderate | High | **Default.** Open access — no login |
+| PaliGemma-3B (4-bit) | ~3-4 GB | Fast | Good | GATED — requires HuggingFace login |
+
+> **Note on the `--model` flag:** the CLI value `llava-1.5-7b` loads LLaVA **v1.6**-Mistral-7B (the value is a stable identifier kept for backward compatibility).
+>
+> **PaliGemma is a gated model.** To use it, accept the license at
+> [huggingface.co/google/paligemma-3b-mix-448](https://huggingface.co/google/paligemma-3b-mix-448),
+> then authenticate with `huggingface-cli login` (or, in Colab,
+> `from huggingface_hub import login; login()`). The default LLaVA model needs none of this.
+
+```bash
+# Default (LLaVA, open access)
+python run_demo.py --num_scenes 5
+
+# PaliGemma (after accepting the license and logging in)
+python run_demo.py --model paligemma-3b --num_scenes 5
+```
 
 ---
 
@@ -249,7 +277,7 @@ ADAS perception code is safety-critical. A regression in calibration math, a bro
 
 <div align="center">
 
-#### Build #10 — All Stages Green 
+#### Build #10 — All Stages Green
 
 <img src="stages-time.jpg" alt="Jenkins Pipeline All Stages Passing" width="950"/>
 
@@ -328,7 +356,7 @@ docker run -d --name jenkins \
 # Open http://localhost:8080 → unlock with:
 docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 
-# Configure: install GitHub Branch Source plugin → add Multibranch Pipeline 
+# Configure: install GitHub Branch Source plugin → add Multibranch Pipeline
 # pointing at this repo → save → first build starts automatically.
 ```
 
