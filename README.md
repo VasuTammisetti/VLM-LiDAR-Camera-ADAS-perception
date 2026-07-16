@@ -4,9 +4,7 @@
 
 ### Zero-Shot Autonomous Driving Scene Understanding with Vision Language Models
 
-
-
-**A multi-modal perception system that leverages pre-trained Vision Language Models to analyze driving scenes using Camera and LiDAR data — with zero training, zero annotations, and zero fine-tuning.**
+**A multi-modal perception system that leverages pre-trained Vision Language Models to analyze driving scenes using Camera and LiDAR data, with zero training, zero annotations, and zero fine-tuning.**
 
 ---
 
@@ -16,7 +14,7 @@
 
 ### RGB Scene Analysis
 
-The model analyzes raw camera images, identifying road users, assessing hazards, and recommending driving actions — all in a single forward pass.
+The model analyzes raw camera images, identifying road users, assessing hazards, and recommending driving actions in a single forward pass.
 
 <div align="center">
 <img src="outputs/examples/vlm_adas_demo.gif" alt="VLM ADAS Demo" width="900"/>
@@ -36,7 +34,7 @@ LiDAR point clouds projected onto camera images as depth-colored overlays. The V
 
 ##  Detailed Results
 
-### Scene Analysis — RGB Input
+### Scene Analysis: RGB Input
 
 The VLM receives a raw driving image and produces structured perception output: scene context, detected objects with positions, hazard severity ranking, and a driving recommendation.
 
@@ -52,9 +50,9 @@ The VLM receives a raw driving image and produces structured perception output: 
 
 <br/>
 
-### Scene Analysis — Camera + LiDAR Fusion
+### Scene Analysis: Camera + LiDAR Fusion
 
-Three-panel view: Front Camera (RGB) | RGB + LiDAR Depth Overlay | VLM Analysis. Depth colors encode distance — blue is close (0-10m), green is mid-range (10-25m), red is far (25-50m). The VLM leverages these depth cues for distance-aware hazard assessment.
+Three-panel view: Front Camera (RGB) | RGB + LiDAR Depth Overlay | VLM Analysis. Depth colors encode distance, where blue is close (0-10m), green is mid-range (10-25m), and red is far (25-50m). The VLM leverages these depth cues for distance-aware hazard assessment.
 
 <div align="center">
 <img src="outputs/examples/showcase_lidar_fusion_1.png" alt="LiDAR Fusion 1" width="950"/>
@@ -70,7 +68,7 @@ Three-panel view: Front Camera (RGB) | RGB + LiDAR Depth Overlay | VLM Analysis.
 
 ##  Why This Project?
 
-Traditional ADAS perception pipelines require thousands of annotated images, weeks of training, and task-specific architectures. This project takes a fundamentally different approach:
+Traditional ADAS perception pipelines require thousands of annotated images, weeks of training, and task-specific architectures. This project takes a different approach:
 
 | | Traditional Pipeline | This Project |
 |:---|:---:|:---:|
@@ -108,25 +106,25 @@ Traditional ADAS perception pipelines require thousands of annotated images, wee
 
 ##  Key Features
 
-- **Zero-Shot Scene Analysis** — No training or annotations needed. The pre-trained VLM understands driving scenes using carefully engineered ADAS-specific prompts.
+- **Zero-Shot Scene Analysis.** No training or annotations needed. The pre-trained VLM understands driving scenes using ADAS-specific prompts.
 
-- **Camera-LiDAR Fusion** — Velodyne 3D points projected onto 2D images via KITTI calibration (P2, R0_rect, Tr_velo_to_cam), creating depth-aware inputs.
+- **Camera-LiDAR Fusion.** Velodyne 3D points projected onto 2D images via KITTI calibration (P2, R0_rect, Tr_velo_to_cam), creating depth-aware inputs.
 
-- **Bird's Eye View** — Top-down LiDAR representation for spatial awareness (40m × 40m, 0.1m resolution).
+- **Bird's Eye View.** Top-down LiDAR representation for spatial awareness (40m × 40m, 0.1m resolution).
 
-- **Multi-Prompt Pipeline** — Four specialized modes: full analysis, hazard-only, depth-aware, and object counting.
+- **Multi-Prompt Pipeline.** Four specialized modes: full analysis, hazard-only, depth-aware, and object counting.
 
-- **4-bit Quantization** — Runs on consumer GPUs (RTX 2070, 8GB VRAM) using NF4 quantization via bitsandbytes.
+- **4-bit Quantization.** Runs on consumer GPUs (RTX 2070, 8GB VRAM) using NF4 quantization via bitsandbytes.
 
-- **Production-Grade CI/CD** — Webhook-triggered Jenkins pipeline with automated testing and Docker Hub publishing — see [CI/CD section](#cicd-pipeline) below.
+- **Production-Grade CI/CD.** Webhook-triggered Jenkins pipeline with automated testing and Docker Hub publishing. See the [CI/CD section](#cicd-pipeline) below.
 
 ---
 
 ##  Quick Start
 
-The demo ships with 5 bundled sample scenes in `data/sample_scenes`, so every option below runs out of the box on a fresh clone — no dataset download required. The default model (**LLaVA-1.6-Mistral-7B**) is open access and needs no login.
+The demo ships with 5 bundled sample scenes in `data/sample_scenes`, so every option below runs out of the box on a fresh clone with no dataset download required. The default model (**LLaVA-1.6-Mistral-7B**) is open access and needs no login.
 
-### Option 1: Google Colab (Recommended — Free GPU)
+### Option 1: Google Colab (Recommended, Free GPU)
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VasuTammisetti/VLM-LiDAR-Camera-ADAS-perception/blob/main/notebooks/vlm_adas_demo.ipynb)
 
@@ -189,7 +187,7 @@ VLM-LiDAR-Camera-ADAS-perception/
 
 ##  Prompt Engineering
 
-The core innovation — transforming a general-purpose VLM into an ADAS perception system through prompt design:
+Transforming a general-purpose VLM into an ADAS perception system through prompt design:
 
 | Mode | Purpose | Example Output |
 |:---|:---|:---|
@@ -204,10 +202,10 @@ The core innovation — transforming a general-purpose VLM into an ADAS percepti
 
 | Model | VRAM | Speed | Quality | Notes |
 |:---|:---:|:---:|:---:|:---|
-| **LLaVA-1.6-Mistral-7B** (4-bit) | ~5-6 GB | Moderate | High | **Default.** Open access — no login |
-| PaliGemma-3B (4-bit) | ~3-4 GB | Fast | Good | GATED — requires HuggingFace login |
+| **LLaVA-1.6-Mistral-7B** (4-bit) | 5-6 GB | Moderate | High | **Default.** Open access, no login |
+| PaliGemma-3B (4-bit) | 3-4 GB | Fast | Good | GATED, requires HuggingFace login |
 
-> **Note on the `--model` flag:** the CLI value `llava-1.5-7b` loads LLaVA **v1.6**-Mistral-7B (the value is a stable identifier kept for backward compatibility).
+> **Note on the `--model` flag:** the CLI value `llava-1.5-7b` loads LLaVA v1.6-Mistral-7B (the value is a stable identifier kept for backward compatibility).
 >
 > **PaliGemma is a gated model.** To use it, accept the license at
 > [huggingface.co/google/paligemma-3b-mix-448](https://huggingface.co/google/paligemma-3b-mix-448),
@@ -226,21 +224,21 @@ python run_demo.py --model paligemma-3b --num_scenes 5
 
 ## CI/CD Pipeline
 
-> **Production-grade automation for safety-critical perception code.** Every commit to `main` triggers a fully containerized pipeline that lints, tests, builds, and publishes a Docker image — with sub-3-second webhook latency and zero manual intervention.
+Every commit to `main` triggers a fully containerized pipeline that lints, tests, builds, and publishes a Docker image, with sub-3-second webhook latency and no manual intervention.
 
 ### Why CI/CD Matters for Sensor Fusion
 
 ADAS perception code is safety-critical. A regression in calibration math, a broken LiDAR projection, or an untested change to the VLM prompt can degrade real-world driving decisions. This pipeline enforces a quality gate on every push:
 
-- **Reproducibility** — every test runs in an isolated Docker container, identical across machines, ensuring "works on my laptop" never reaches production.
-- **Regression catching** — 11 unit tests cover calibration math, LiDAR projection, prompt structure, and model loading interfaces. A broken commit gets rejected before merge.
-- **Auditable history** — every build is traceable to a Git commit, a Docker image digest, and a JUnit test report. Critical for any safety-critical software lifecycle (ISO 26262 / ASPICE alignment).
-- **Fast feedback** — webhook triggers mean developers see lint/test failures within minutes, not hours.
+- **Reproducibility.** Every test runs in an isolated Docker container, identical across machines, so "works on my laptop" never reaches production.
+- **Regression catching.** 11 unit tests cover calibration math, LiDAR projection, prompt structure, and model loading interfaces. A broken commit gets rejected before merge.
+- **Auditable history.** Every build is traceable to a Git commit, a Docker image digest, and a JUnit test report. This is important for any safety-critical software lifecycle (ISO 26262 / ASPICE alignment).
+- **Fast feedback.** Webhook triggers mean developers see lint and test failures within minutes, not hours.
 
 ### Pipeline Architecture
 
 ```
-                              GitHub Webhook (~2s latency)
+                              GitHub Webhook (2s latency)
                                         │
    git push origin main ──────────────►─┘
                                         │
@@ -255,7 +253,7 @@ ADAS perception code is safety-critical. A regression in calibration math, a bro
    ┌─────────┐  ┌──────────────┐  ┌───────────┐  ┌────────────┐  ┌──────────────┐  ┌────────────┐
    │Checkout │─►│ Build Test   │─►│   Lint    │─►│   Unit     │─►│  Build App   │─►│   Push to  │
    │  SCM    │  │   Image      │  │ (flake8)  │  │   Tests    │  │    Image     │  │  Registry  │
-   │  (1s)   │  │  (~30s cached)│  │   (1s)    │  │ (11 tests) │  │ (production) │  │ (Docker Hub)│
+   │  (1s)   │  │  (30s cached)│  │   (1s)    │  │ (11 tests) │  │ (production) │  │ (Docker Hub)│
    └─────────┘  └──────────────┘  └───────────┘  └────────────┘  └──────────────┘  └────────────┘
                                          │
                                          ▼
@@ -270,31 +268,31 @@ ADAS perception code is safety-critical. A regression in calibration math, a bro
 
 <div align="center">
 
-#### Build #10 — All Stages Green
+#### Build #10, All Stages Green
 
 <img src="stages-time.jpg" alt="Jenkins Pipeline All Stages Passing" width="950"/>
 
-*Triggered by webhook 2 seconds after `git push`. End-to-end build time including Docker layer caching: ~9 minutes (first build), ~2 minutes (cached).*
+*Triggered by webhook 2 seconds after `git push`. End-to-end build time including Docker layer caching: about 9 minutes on the first build, about 2 minutes when cached.*
 
 </div>
 
 <div align="center">
 
-#### Test Results — 11/11 Passing in 2.4 seconds
+#### Test Results, 11/11 Passing in 2.4 seconds
 
 <img src="jenkins%20all%20test%20pass.jpg" alt="Jenkins All 11 Tests Passing" width="950"/>
 
-*Comprehensive coverage across calibration, LiDAR projection, prompt validation, and model loading interfaces.*
+*Coverage across calibration, LiDAR projection, prompt validation, and model loading interfaces.*
 
 </div>
 
 <div align="center">
 
-#### Test Suite Performance — Consistent Sub-3-Second Execution
+#### Test Suite Performance, Consistent Sub-3-Second Execution
 
 <img src="test-history-vlm-adas-perception_main-6-10-distribution.png" alt="Test Duration Distribution" width="950"/>
 
-*Build-over-build duration distribution shows stable test performance — no flaky tests, no creeping latency.*
+*Build-over-build duration distribution shows stable test performance, with no flaky tests and no creeping latency.*
 
 </div>
 
@@ -302,7 +300,7 @@ ADAS perception code is safety-critical. A regression in calibration math, a bro
 
 | Stage | What It Checks | Why It Matters for Sensor Fusion |
 |:---|:---|:---|
-| **Checkout SCM** | Pulls exact commit from GitHub | Reproducibility — every build is traceable to a single SHA |
+| **Checkout SCM** | Pulls exact commit from GitHub | Reproducibility. Every build is traceable to a single SHA |
 | **Build Test Image** | Builds Python + PyTorch + CUDA test environment | Ensures the fusion stack installs cleanly from `requirements.txt` on every commit |
 | **Lint (flake8)** | Static analysis of all `src/` code | Catches syntax errors, unused variables, and style violations before they hit production |
 | **Unit Tests (pytest)** | Runs 11 tests covering core fusion logic | Validates KITTI calibration math, point-cloud projection, prompt templates, and model interfaces |
@@ -319,16 +317,16 @@ tests/test_visualization.py          ── 5 tests   ── LiDAR projection, c
                                        11 passing  ── 2.4 seconds total
 ```
 
-The tests deliberately cover the **non-ML logic that's most likely to silently break under refactoring** — calibration matrix shapes, point-cloud filtering, prompt structure. The VLM itself is treated as a black-box dependency.
+The tests deliberately cover the non-ML logic that is most likely to silently break under refactoring: calibration matrix shapes, point-cloud filtering, and prompt structure. The VLM itself is treated as a black-box dependency.
 
-### Tech Stack — CI/CD Layer
+### Tech Stack, CI/CD Layer
 
 | Component | Tool | Purpose |
 |:---|:---|:---|
 | **CI Orchestration** | Jenkins LTS (in Docker) | Multi-branch Pipeline auto-discovers all branches |
-| **Trigger** | GitHub Webhook + ngrok | ~2-second latency from `git push` to build start |
+| **Trigger** | GitHub Webhook + ngrok | About 2-second latency from `git push` to build start |
 | **Containerization** | Docker + Docker-in-Docker | Every stage runs in an ephemeral container |
-| **Static Analysis** | flake8 | Code style + unused variable detection |
+| **Static Analysis** | flake8 | Code style and unused variable detection |
 | **Testing** | pytest + JUnit XML | Test results displayed natively in Jenkins UI |
 | **Registry** | Docker Hub ([tammisetti/vlm-adas-app](https://hub.docker.com/r/tammisetti/vlm-adas-app)) | Public versioned artifacts |
 | **Credentials** | Jenkins Credentials Manager | GitHub PAT + Docker Hub PAT (scoped, rotatable) |
@@ -346,28 +344,28 @@ docker run -d --name jenkins \
   --restart unless-stopped \
   jenkins/jenkins:lts
 
-# Open http://localhost:8080 → unlock with:
+# Open http://localhost:8080 and unlock with:
 docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 
-# Configure: install GitHub Branch Source plugin → add Multibranch Pipeline
-# pointing at this repo → save → first build starts automatically.
+# Configure: install GitHub Branch Source plugin, add a Multibranch Pipeline
+# pointing at this repo, save, and the first build starts automatically.
 ```
 
-The full `Jenkinsfile` is in the repo root — fully declarative, Docker-in-Docker, with `docker cp` for clean test result extraction across the container boundary.
+The full `Jenkinsfile` is in the repo root: fully declarative, Docker-in-Docker, with `docker cp` for clean test result extraction across the container boundary.
 
 ### Engineering Choices Worth Calling Out
 
 A few decisions that may matter:
 
-1. **Docker-in-Docker via socket mount** — Jenkins runs in Docker but builds/runs Docker containers itself by mounting `/var/run/docker.sock`. This avoids the overhead of nested Docker but has well-known security trade-offs (acceptable for local CI; in production this would be replaced with Kubernetes pod-per-build or rootless DinD).
+1. **Docker-in-Docker via socket mount.** Jenkins runs in Docker but builds and runs Docker containers itself by mounting `/var/run/docker.sock`. This avoids the overhead of nested Docker but has well-known security trade-offs (acceptable for local CI; in production this would be replaced with a Kubernetes pod-per-build or rootless DinD).
 
-2. **`docker cp` for test result extraction** — Volume-mounted test outputs don't work cleanly across the DinD boundary on Windows hosts (host-path-vs-container-path mismatch). The pipeline uses `docker run --name` followed by `docker cp` to extract `results.xml` reliably, regardless of the host OS.
+2. **`docker cp` for test result extraction.** Volume-mounted test outputs don't work cleanly across the DinD boundary on Windows hosts (host-path vs container-path mismatch). The pipeline uses `docker run --name` followed by `docker cp` to extract `results.xml` reliably, regardless of the host OS.
 
-3. **Multibranch Pipeline over single-branch** — Every branch and PR gets its own pipeline run automatically. New collaborators don't need any Jenkins configuration to get CI on their feature branches.
+3. **Multibranch Pipeline over single-branch.** Every branch and PR gets its own pipeline run automatically. New collaborators don't need any Jenkins configuration to get CI on their feature branches.
 
-4. **Image cache strategy** — `Dockerfile.test` is layered so that `pip install` happens before `COPY src/`. This means code changes don't invalidate the (slow) dependency install layer, dropping subsequent builds from ~9 minutes to ~2 minutes.
+4. **Image cache strategy.** `Dockerfile.test` is layered so that `pip install` happens before `COPY src/`. Code changes don't invalidate the slow dependency install layer, dropping subsequent builds from about 9 minutes to about 2 minutes.
 
-5. **Polling as a safety net** — Even with webhooks, the pipeline polls every 1 minute. If ngrok dies overnight or GitHub has a webhook outage, builds still trigger — never silently miss a commit.
+5. **Polling as a safety net.** Even with webhooks, the pipeline polls every 1 minute. If ngrok dies overnight or GitHub has a webhook outage, builds still trigger and never silently miss a commit.
 
 ---
 
@@ -375,11 +373,11 @@ A few decisions that may matter:
 
 | Component | Detail |
 |:---|:---|
-| **LiDAR Projection** | 3D → 2D via P2 × R0_rect × Tr_velo_to_cam |
+| **LiDAR Projection** | 3D to 2D via P2 × R0_rect × Tr_velo_to_cam |
 | **Depth Encoding** | Jet colormap: blue (0-10m), green (10-25m), red (25-50m) |
 | **BEV Resolution** | 40m × 40m at 0.1m per pixel |
-| **Quantization** | 4-bit NF4 (14GB model → 5GB VRAM) |
-| **Dataset** | KITTI: RGB 1242×375, Velodyne 64-beam ~120K pts/frame |
+| **Quantization** | 4-bit NF4 (14GB model to 5GB VRAM) |
+| **Dataset** | KITTI: RGB 1242×375, Velodyne 64-beam, about 120K pts/frame |
 | **Inference** | Zero-shot, no training, no annotations |
 
 ---
@@ -394,20 +392,20 @@ A few decisions that may matter:
 
 Active development. The CI/CD foundation enables rapid, safe iteration on these:
 
-- [ ] **FastAPI inference server** — Wrap the VLM in a REST endpoint so consumers can `POST /infer` with image + LiDAR. Makes the published Docker Hub image runnable as a service.
-- [ ] **Real-time streaming pipeline** — Redis Streams producer replaying KITTI frames at 10 Hz LiDAR rate, with a consumer calling the inference endpoint and a live visualizer (Streamlit / rerun.io).
-- [ ] **VLA action mode** — Extend the prompt suite to output executable driving actions (decelerate, lane-change, brake) instead of just descriptions. Lightweight Vision-Language-Action upgrade.
-- [ ] **Kubernetes manifests + Helm chart** — k3d-deployable production stack with HPA on the inference service.
-- [ ] **Prometheus + Grafana monitoring** — Inference latency p50/p95/p99, GPU utilization, request throughput.
-- [ ] **Radar modality** — Currently camera+LiDAR; nuScenes-based extension to add radar fusion.
+-  **FastAPI inference server.** Wrap the VLM in a REST endpoint so consumers can `POST /infer` with image + LiDAR. Makes the published Docker Hub image runnable as a service.
+-  **Real-time streaming pipeline.** Redis Streams producer replaying KITTI frames at 10 Hz LiDAR rate, with a consumer calling the inference endpoint and a live visualizer (Streamlit / rerun.io).
+-  **VLA action mode.** Extend the prompt suite to output executable driving actions (decelerate, lane-change, brake) instead of just descriptions. A lightweight Vision-Language-Action upgrade.
+-  **Kubernetes manifests + Helm chart.** k3d-deployable production stack with HPA on the inference service.
+-  **Prometheus + Grafana monitoring.** Inference latency p50/p95/p99, GPU utilization, request throughput.
+-  **Radar modality.** Currently camera and LiDAR; a nuScenes-based extension to add radar fusion.
 
 ---
 
 ##  Author
 
 **Vasu Tammisetti**
-AI Research Engineer & Doctoral Researcher — Infineon Technologies AG, Munich
-PhD: Meta-Learning for ADAS Perception — University of Granada
+AI Research Engineer & Doctoral Researcher, Infineon Technologies AG, Munich
+PhD: Meta-Learning for ADAS Perception, University of Granada
 
 [![GitHub](https://img.shields.io/badge/GitHub-VasuTammisetti-181717?logo=github)](https://github.com/VasuTammisetti)
 
